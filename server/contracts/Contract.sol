@@ -24,6 +24,22 @@ contract TwitterContract{
         emit AddTweet(msg.sender, tweetId);
     }
 
+    function getAllTweets() external view returns (Tweet[] memory){
+        Tweet[] memory temporary = new Tweet[](tweets.length);
+        uint counter = 0;
+        for(uint i = 0; i < tweets.length; i++){
+            if(tweets[i].isDeleted == false){
+                temporary[counter] = tweets[i];
+                counter++;
+            }
+        }
+
+        Tweet[] memory result = new Tweet[](counter);
+        for(uint i = 0; i < counter; i++){
+            result[i] = temporary[i];
+        }
+        return result;
+    }
     
 
 
