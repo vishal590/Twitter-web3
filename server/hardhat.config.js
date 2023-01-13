@@ -1,12 +1,14 @@
 require("@nomicfoundation/hardhat-toolbox");
-require ('dotenv').config();
+require("dotenv").config()
 
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.17",
+  solidity: "0.8.4",
   networks: {
-    url: process.env.ALCHEMY_URL,
-    accounts: [process.env.ACCOUNT_PRIVATE_KEY],
+    goerli:{
+      url: process.env.STAGING_ALCHEMY_KEY,
+      accounts: [process.env.PRIVATE_KEY],
+    }
   },
 };
