@@ -9,6 +9,42 @@ import {ethers} from "ethers";
 import Twitter from "./utils/TwitterContract.json";
 
 
+function Feed({personal}){
+    const [posts, setPosts] = useState([]);
+
+    const getUpdatedTweets = (allTweets, address) => {
+     let updatedTweets = [];
+
+     for(let i = 0; i < allTweets.length; i++){
+          if(allTweets[i].username.toLowerCase() == address.toLowerCase()){
+               let tweet = {
+                    'id' : allTweets[i].id,
+                    'tweetText': allTweets[i].tweetText,
+                    'isDeleted': allTweets[i].isDeleted,
+                    'username': allTweets[i].username,
+                    'personal': true 
+               };
+               updatedTweets.push(tweet);
+          }else{
+               let tweet = {
+                    'id': allTweets[i].id,
+                    'tweetText': allTweets[i].tweetText,
+                    'isDeleted': allTweets[i].isDeleted,
+                    'username': allTweets[i].username,
+                    'personal': false
+               };
+               updatedTweets.push(tweet);
+          }
+     }
+     return updatedTweets;
+
+    }
+
+    const getAllTweets = async() => {
+     
+    }
+
+}
 
 
 
