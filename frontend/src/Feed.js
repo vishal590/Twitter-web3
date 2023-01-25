@@ -41,10 +41,83 @@ function Feed({personal}){
     }
 
     const getAllTweets = async() => {
-     
+     try{
+          const {ethereum} = window;
+
+          if(ethereum){
+               const provider = new ethers.providers.Web3Provider(ethereum);
+               const signer = provider.getSigner();
+               const TwitterContract = new ethers.Contract(
+                    TwitterContractAddress,
+                    Twitter.abi,
+                    signer
+               )
+
+               let allTweets = await TwitterContract.getAllTweets();
+               setPosts(getUpdatedTweets(allTweets, ethereum.selectedAddress));
+          }else{
+               console.log("Ethereum object doesn't exist");
+          }
+     }catch(error){
+          console.log(error);
+     }
     }
 
+    useEffect(() => {
+     getAllTweets();
+    }, []);
+
+    const deleteTweet = key => async() => {
+     console.log(key);
+
+     try{
+          const {ethereum} = window;
+
+          if(ethereum){
+               const provider = new ethers.providers.Web3Provider(ethereum);
+               const signer = provider.getSigner();
+
+               const TwitterContract = new ethers.Contract(
+                    TwitterContractAddress,
+                    Twitter.abi,
+                    signer
+               );
+
+               let deleteTweetTx = await TwitterContract.deleteTweet(key, true);
+               let allTweets = await TwitterContract.getAllTweets();
+               setPosts(getUpdatedTweets(allTweets, ethereum.selectedAddress));
+          }else{
+               console.log("Ethereum object doensn't exist");
+          }
+     }catch(error){
+          console.log(error);
+     }
+    }
+
+    return (
+     <div className="feed">
+          <div className = "feed_header">
+               <h2>Home</h2>
+          </div>
+
+          <TweetBox />
+
+          <FlipMove>
+               {posts.map((post) => (
+                    <Post 
+                         key = {post.id}
+                         displayName = {post.username}
+                         text = {post.tweetText}
+                         personal = {post.personal}
+                         onClick = {deleteTweet(post.id)}
+                    />
+               ))}
+          </FlipMove>
+     </div>
+    );
 }
+
+export default Feed;
 
 
 
