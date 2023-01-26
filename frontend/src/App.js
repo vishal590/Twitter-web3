@@ -23,8 +23,8 @@ const connectWallet = async () => {
 
     if(goerliChainId !== chainId){
       alert("You are not connected to goerli testnet")
-      console.log("You are not connected to goerli testnet");
-      setCorrectNetwork(false);
+      //console.log("You are not connected to goerli testnet");
+      //setCorrectNetwork(false);
       return;
     }else{
       setCorrectNetwork(true);
